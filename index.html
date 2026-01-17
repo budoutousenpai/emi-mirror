@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Luxury Utility Gold Edition</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #d4af37 0%, #f9f295 45%, #b8860b 100%);
+            --gold-border: #ffd700;
+        }
+
+        body { 
+            font-family: 'Georgia', serif; 
+            padding: 10px; 
+            background: var(--bg-gradient); 
+            background-attachment: fixed;
+            margin: 0;
+            color: #fff;
+        }
+
+        /* ミラー セクション */
+        #mirror-container {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+        #video { 
+            width: 100%; 
+            display: none; 
+            border-radius: 20px;
+            background: #000; 
+            transform: scaleX(-1);
+            border: 4px solid var(--gold-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            margin-bottom: 15px;
+        }
+        
+        /* 写真ボタンのスタイル */
+        .mirror-photo-btn {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            border: 4px solid var(--gold-border);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .mirror-photo-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* --- ロゴ配置 --- */
+        .header-logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px 0;
+            background: rgba(0,0,0,0.3);
+            border-top: 3px double var(--gold-border);
+            border-bottom: 3px double var(--gold-border);
+        }
+        .header-logos img {
+            width: 46%;
+            height: auto;
+        }
+
+        h3 { 
+            color: #fff; 
+            background: linear-gradient(to right, #b8860b, transparent);
+            border-left: 8px solid var(--gold-border);
+            padding: 8px 15px;
+            margin-top: 25px;
+            font-size: 1.3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            border-radius: 0 15px 15px 0;
+        }
+
+        /* 電話スライダー */
+        .phone-row { margin-bottom: 15px; }
+        .slider-track {
+            width: 100%;
+            height: 65px;
+            background: #222;
+            border-radius: 35px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 3px solid var(--gold-border);
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.8);
+        }
+        .slider-handle {
+            width: 68%;
+            height: 52px;
+            border-radius: 26px;
+            position: absolute;
+            left: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.8);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            touch-action: none;
+            z-index: 2;
+        }
+        .row-0 .slider-handle { background: radial-gradient(circle at 30% 30%, #ff4b2b, #ff0000); }
+        .row-1 .slider-handle { background: radial-gradient(circle at 30% 30%, #1e90ff, #0000ff); }
+        .row-2 .slider-handle { background: radial-gradient(circle at 30% 30%, #ffff80, #ffd700); color: #000; }
+
+        .status-light {
+            width: 25px;
+            height: 25px;
+            background: #444;
+            border-radius: 50%;
+            position: absolute;
+            right: 20px;
+        }
+
+        textarea { 
+            width: 100%; 
+            box-sizing: border-box;
+            height: 150px; 
+            font-size: 18px; 
+            padding: 15px;
+            border-radius: 15px;
+            border: 3px solid var(--gold-border);
+            background: #1a1a1a;
+            color: #f9f295;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding-bottom: 40px;
+        }
+        .link-btn {
+            border: 2px solid var(--gold-border);
+            padding: 18px 5px;
+            border-radius: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 6px 0 #8b4513;
+            cursor: pointer;
+        }
+        .c1 { background: linear-gradient(to bottom, #ff6b6b, #c0392b); }
+        .c2 { background: linear-gradient(to bottom, #3498db, #2980b9); }
+
+        hr { border: 0; border-top: 4px double var(--gold-border); margin: 35px 0; }
+    </style>
+</head>
+<body>
+
+<div id="mirror-container">
+    <video id="video" autoplay playsinline></video>
+    <img src="emirin.jpg" id="cameraBtn" class="mirror-photo-btn" onclick="toggleCamera()" alt="鏡を起動">
+</div>
+
+<div class="header-logos">
+    <img src="fuwamait.jpg" alt="ふわめいと">
+    <img src="budousen.jpg" alt="ぶどう">
+</div>
+
+<hr>
+
+<h3>VIP CALL (長押しで登録)</h3>
+<div id="phone-list"></div>
+
+<hr>
+
+<h3>GOLD MEMO</h3>
+<textarea id="memo" placeholder="黄金のメモをここに..."></textarea>
+
+<hr>
+
+<h3>PREMIUM LINKS</h3>
+<div class="link-grid">
+    <div class="link-btn c1" onclick="window.open('https://www.google.co.jp')">Google</div>
+    <div class="link-btn c2" onclick="window.open('https://www.yahoo.co.jp')">Yahoo!</div>
+</div>
+
+<script>
+let stream = null;
+async function toggleCamera() {
+    const video = document.getElementById('video');
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+        video.style.display = 'none';
+    } else {
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+            video.srcObject = stream;
+            video.style.display = 'block';
+        } catch (err) {
+            alert("カメラを起動できませんでした。");
+        }
+    }
+}
+
+// 電話スライダー初期化（簡略版）
+const phoneList = document.getElementById('phone-list');
+let phoneData = JSON.parse(localStorage.getItem('phoneData')) || [
+    {name: "登録1", tel: ""}, {name: "登録2", tel: ""}, {name: "登録3", tel: ""}
+];
+
+function initPhones() {
+    phoneList.innerHTML = '';
+    phoneData.forEach((data, index) => {
+        const row = document.createElement('div');
+        row.className = `phone-row row-${index % 3}`;
+        row.innerHTML = `<div class="slider-track"><div class="slider-handle" id="handle-${index}">${data.name}</div><div class="status-light" id="light-${index}"></div></div>`;
+        phoneList.appendChild(row);
+
+        const handle = document.getElementById(`handle-${index}`);
+        const light = document.getElementById(`light-${index}`);
+        let startX = 0;
+        let pressTimer;
+
+        handle.addEventListener('touchstart', (e) => {
+            pressTimer = setTimeout(() => {
+                const newName = prompt("名前", data.name);
+                const newTel = prompt("電話番号", data.tel);
+                if (newName && newTel) {
+                    phoneData[index] = {name: newName, tel: newTel};
+                    localStorage.setItem('phoneData', JSON.stringify(phoneData));
+                    initPhones();
+                }
+            }, 800);
+            startX = e.touches[0].clientX;
+        });
+
+        handle.addEventListener('touchmove', (e) => {
+            clearTimeout(pressTimer);
+            let moveX = e.touches[0].clientX - startX;
+            const maxMove = handle.parentElement.clientWidth - handle.clientWidth - 10;
+            if (moveX < 0) moveX = 0;
+            if (moveX > maxMove) moveX = maxMove;
+            handle.style.left = (moveX + 6) + 'px';
+            light.style.background = (moveX >= maxMove - 5) ? '#00ff00' : '#444';
+        });
+
+        handle.addEventListener('touchend', () => {
+            clearTimeout(pressTimer);
+            const maxMove = handle.parentElement.clientWidth - handle.clientWidth - 10;
+            if (parseInt(handle.style.left) >= maxMove - 10 && data.tel) {
+                location.href = 'tel:' + data.tel;
+            }
+            handle.style.left = '6px';
+            light.style.background = '#444';
+        });
+    });
+}
+initPhones();
+
+const memo = document.getElementById("memo");
+memo.value = localStorage.getItem("memo") || "";
+memo.addEventListener("input", () => localStorage.setItem("memo", memo.value));
+</script>
+</body>
+</html>
